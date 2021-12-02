@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+const WebTorrent = require('webtorrent');
+const client = new WebTorrent();
+
+client.seed("web3root/", function (torrent) {
+  console.log('Seeding magnet:?xt=urn:btih:'+torrent.infoHash);
+  console.log('Add a TXT entry on your HNS name with '+torrent.infoHash);
+});
+
