@@ -1,5 +1,5 @@
 # publius
-## Share files to the web3 swarm.
+## Share files to the unblockable DHT
 
 ### Short Description
 
