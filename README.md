@@ -79,6 +79,11 @@ cd ..
 ```
 6. Update Handshake Address on chain with TXT Record to your magnet link (depending on mutable or immutable from seed or publius -- see 'federalistpapers' as an example).
 
+## Discussion
+
+Please make an issue on github for any bugs or feature requests.  To discuss more,
+join #scarywater on irc.freenode.net.
+
 ## Copyright and License
 
 (c) 2021 Publius
