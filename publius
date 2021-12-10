@@ -1,9 +1,60 @@
 #!/usr/bin/env node
 const WebTorrent = require('webtorrent');
 const client = new WebTorrent();
+const crypto = require('crypto');
+const fs = require('fs');
+const ed = require('supercop.js');
 
-client.seed("web3root/", function (torrent) {
-  console.log('Seeding magnet:?xt=urn:btih:'+torrent.infoHash);
-  console.log('Add a TXT entry on your HNS name with '+torrent.infoHash);
-});
+var getKeys = () => {
+  return (fs.existsSync(".key") ? JSON.parse(fs.readFileSync(".key")) : null);
+}
+client.seed("web3root/", (torrent) => { updateDH(torrent.infoHash); });
 
+function updateDH(infohash) {
+  var keys = getKeys();
+  var bKeys = {};
+  bKeys.public = Buffer.from(keys.public,'hex');
+  bKeys.private = Buffer.from(keys.private,'hex');
+
+  var targetID = crypto.createHash('sha1').update(bKeys.public).digest('hex');
+  var dhclient = new WebTorrent({ dht: {verify: ed.verify }})
+
+  dhclient.on('error', () => {
+    console.log("ERROR!");
+    process.exit(-1);
+  });
+
+  var dht = dhclient.dht;
+
+  dht.on('ready', () => {
+    let opts = {
+      k: bKeys.public,
+      v: {
+        ih: new Buffer.from(infohash,'hex')
+      },
+      sign: (buf) => { return ed.sign(buf, bKeys.public, bKeys.private) }
+    }
+
+    dht.get(targetID, (err, res) => {
+      let seq=0;
+      if (err || !res)
+        seq = 0;
+      else
+        seq = res.seq + 1;
+
+      opts.seq = seq;
+      dht.put(opts, (err, hash) => {
+        if (err) {
+          console.log("ERROR (PUT)!");
+          process.exit(-1);
+        }
+        if (hash) {
+          console.log('Seeding magnet:?xs=urn:btpk:'+keys.public);
+          console.log('Add this as a TXT record on the Handshake Blockchain');
+          console.log('(ed25519 magnet points to '+infohash+')');
+        }
+        client.destroy()
+      });
+    });
+  });
+}

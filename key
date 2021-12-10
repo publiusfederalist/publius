@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+const ed = require('ed25519-supercop');
+const fs = require('fs');
+
+let key;
+if(fs.existsSync('.key'))
+  key=JSON.parse(fs.readFileSync('.key'));
+else {
+  let keyPair = ed.createKeyPair(ed.createSeed());
+  key = {
+    public: keyPair.publicKey.toString('hex'),
+    private: keyPair.secretKey.toString('hex')
+  };
+  fs.writeFileSync(".key",JSON.stringify(key));
+}
+console.log('public: '+key.public);
+console.log('private: '+key.private);

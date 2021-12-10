@@ -58,22 +58,26 @@ cd publius
 
 2. Install npm modules
 ```
-npm install webtorrent
+npm install webtorrent supercop.js
 ```
 
 3. Create files in the web3root folder
 ```
 cd web3root
-vi index.md
+vi index.html
 ```
 
-4. Run publius
+4. Run seed
 ```
 cd ..
-./publius
+./seed &
 ```
 
-5. Update Handshake Address, on chain, with TXT Record (see "federalistpapers" name as an example).
+5. For mutable (updatable) sites, also run publius
+```
+./publius
+```
+6. Update Handshake Address on chain with TXT Record to your magnet link (depending on mutable or immutable from seed or publius -- see 'federalistpapers' as an example).
 
 ## Copyright and License
 
