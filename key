@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const ed = require('ed25519-supercop');
+const ed = require('supercop.js');
 const fs = require('fs');
 
 let key;
