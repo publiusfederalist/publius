@@ -28,7 +28,7 @@ distributed via magnet links and DHT is used to find peers.
 
 - Create an unblockable blog
 
-- Whistleblow
+- Whistleblow (don't do this without an anonymizer!)
 
 - Share information
 
