@@ -1,6 +1,8 @@
 # publius
 ## Share files to the unblockable DHT
 
+## Learn more by joining the [Handshake Discord Community](https://discord.gg/tXJ2UdGuda)
+
 ### Short Description
 
 publius uses webtorrent to share a folder to be viewed by federalist.
